@@ -1,6 +1,7 @@
 // TODO Implement this library.
 
 import 'package:flutter/material.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
 
 class GenerateCodePage extends StatefulWidget {
   const GenerateCodePage({super.key});
@@ -29,14 +30,26 @@ class GenerateCodePageState extends State<GenerateCodePage> {
           )
         ],
       ),
-      body: Center(
-        child: Container(
-          child: Text(
-            "Hi this is generator",
-            style: TextStyle(color: Colors.blueAccent.shade400, fontSize: 20),
-          ),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextField(
+              onSubmitted: (value) {
+                setState(() {
+                  qrData = value;
+                });
+              },
+            ),
+            if (qrData!= null) PrettyQrView.data(data: qrData!),
+          ],
+          
         ),
       ),
     );
   }
 }
+

@@ -10,8 +10,6 @@ class ScanCodePage extends StatefulWidget {
   State<ScanCodePage> createState() => ScanCodePageState();
 }
 
-
-
 class ScanCodePageState extends State<ScanCodePage> {
   @override
   Widget build(BuildContext context) {
@@ -49,7 +47,9 @@ class ScanCodePageState extends State<ScanCodePage> {
                     title: Text(
                       barcodes.first.rawValue ?? "",
                     ),
-                    content: Image(image: MemoryImage(image),),
+                    content: Image(
+                      image: MemoryImage(image),
+                    ),
                   );
                 });
           }
