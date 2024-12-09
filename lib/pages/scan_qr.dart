@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -43,14 +43,47 @@ class ScanCodePageState extends State<ScanCodePage> {
             showDialog(
                 context: context,
                 builder: (context) {
-                  return AlertDialog(
-                    title: Text(
-                      barcodes.first.rawValue ?? "",
+                  // below is returned another scaffold with alertdialog inside another body
+                  // changing color to transparent -- as helps shows snackbar above alert
+                  return Scaffold(
+                    backgroundColor: Colors.transparent,
+                  body: AlertDialog(
+                    title: GestureDetector(
+                      onTap: () async {
+                        await Clipboard.setData(
+                          ClipboardData(text: barcodes.first.rawValue ?? ""),
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          backgroundColor: Colors.blue,
+                          duration: Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          content: const Row(
+                            children: [
+                              Icon(Icons.copy_all),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(child: Text("Copied to clipboard")),
+                            ],
+                          ),
+                        ));
+                      },
+                      child: Text(
+                        barcodes.first.rawValue ?? "",
+                        style: const TextStyle(
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
                     ),
                     content: Image(
                       image: MemoryImage(image),
                     ),
-                  );
+                  ));
                 });
           }
         },
